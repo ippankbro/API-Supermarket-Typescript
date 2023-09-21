@@ -1,0 +1,89 @@
+// This is your Prisma schema file,
+// learn more about it in the docs: https://pris.ly/d/prisma-schema
+
+generator client {
+  provider = "prisma-client-js"
+}
+
+datasource db {
+  provider = "mysql"
+  url      = env("DATABASE_URL")
+}
+
+model User {
+  id       Int     @id @default(autoincrement())
+  email    String  @unique
+  username String  @unique
+  name     String?
+  posts    Post[]
+}
+
+model Post {
+  id        Int      @id @default(autoincrement())
+  content   String
+  author    User?    @relation(fields: [authorId], references: [id])
+  authorId  Int?
+  createdAt DateTime @default(now())
+}
+
+//cashier system
+
+model Cashier {
+  id          String        @id @default(uuid())
+  name        String
+  address     String
+  email       String        @unique
+  createdAt   DateTime      @default(now())
+  updatedAt   DateTime      @updatedAt
+  Transaction Transaction[]
+}
+
+model Barang {
+  sku       String     @id @default(uuid())
+  name      String
+  type      String
+  price     BigInt
+  note      String?
+  createdAt DateTime   @default(now())
+  updatedAt DateTime   @updatedAt
+  Purchase  Purchase[]
+}
+
+model Transaction {
+  id            Int        @id @default(autoincrement())
+  cashier       Cashier    @relation(fields: [cashier_id], references: [id])
+  cashier_id    String
+  receipt       BigInt
+  pay_methode   Pay        @default(CASH)
+  pay_reference String?    @unique
+  money_peek    BigInt?
+  change        BigInt?
+  createdAt     DateTime   @default(now())
+  updatedAt     DateTime   @updatedAt
+  Purchase      Purchase[]
+}
+
+model Purchase {
+  id          Int          @id @default(autoincrement())
+  brg_name    Barang       @relation(fields: [brg_sku], references: [sku])
+  brg_sku     String
+  qty         Int
+  unit        PurchaseUnit @default(PCS)
+  createdAt   DateTime     @default(now())
+  updatedAt   DateTime     @updatedAt
+  pcs_price   BigInt
+  total_price BigInt
+  transaction Transaction  @relation(fields: [trans_id], references: [id])
+  trans_id    Int
+}
+
+enum Pay {
+  CASH
+  CC
+  EMONEY
+}
+
+enum PurchaseUnit {
+  PCS
+  BOX
+}
