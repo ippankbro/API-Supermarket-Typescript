@@ -50,7 +50,7 @@ model Barang {
 }
 
 model Transaction {
-  id            Int        @id @default(autoincrement())
+  id            String     @id @default(uuid())
   cashier       Cashier    @relation(fields: [cashier_id], references: [id])
   cashier_id    String
   receipt       BigInt
@@ -74,7 +74,7 @@ model Purchase {
   pcs_price   BigInt
   total_price BigInt
   transaction Transaction  @relation(fields: [trans_id], references: [id])
-  trans_id    Int
+  trans_id    String
 }
 
 enum Pay {
