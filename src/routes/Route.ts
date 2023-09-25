@@ -33,5 +33,6 @@ route.delete("/barang/:sku", barangController.deleteBarang);
 //Transaction Route
 
 route.post("/transaction", TransactioController.createTransaction);
+route.get("/transactions", TransactioController.getTransaction);
 
 export default route;

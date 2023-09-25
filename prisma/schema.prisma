@@ -40,9 +40,9 @@ model Cashier {
 
 model Barang {
   sku       String     @id @default(uuid())
-  name      String
+  name      String     @unique
   type      String
-  price     BigInt
+  price     Int
   note      String?
   createdAt DateTime   @default(now())
   updatedAt DateTime   @updatedAt
@@ -53,11 +53,11 @@ model Transaction {
   id            String     @id @default(uuid())
   cashier       Cashier    @relation(fields: [cashier_id], references: [id])
   cashier_id    String
-  receipt       BigInt
+  receipt       Int
   pay_methode   Pay        @default(CASH)
   pay_reference String?    @unique
-  money_peek    BigInt?
-  change        BigInt?
+  money_peek    Int?
+  change        Int?
   createdAt     DateTime   @default(now())
   updatedAt     DateTime   @updatedAt
   Purchase      Purchase[]
@@ -65,14 +65,14 @@ model Transaction {
 
 model Purchase {
   id          Int          @id @default(autoincrement())
-  brg_name    Barang       @relation(fields: [brg_sku], references: [sku])
+  brg_name    Barang       @relation(fields: [brg_sku], references: [name])
   brg_sku     String
   qty         Int
   unit        PurchaseUnit @default(PCS)
   createdAt   DateTime     @default(now())
   updatedAt   DateTime     @updatedAt
-  pcs_price   BigInt
-  total_price BigInt
+  pcs_price   Int
+  total_price Int
   transaction Transaction  @relation(fields: [trans_id], references: [id])
   trans_id    String
 }
