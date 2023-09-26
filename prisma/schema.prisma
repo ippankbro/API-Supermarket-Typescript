@@ -40,7 +40,7 @@ model Cashier {
 
 model Barang {
   sku       String     @id @default(uuid())
-  name      String     @unique
+  name      String
   type      String
   price     Int
   note      String?
@@ -65,7 +65,7 @@ model Transaction {
 
 model Purchase {
   id          Int          @id @default(autoincrement())
-  brg_name    Barang       @relation(fields: [brg_sku], references: [name])
+  brg_name    Barang       @relation(fields: [brg_sku], references: [sku])
   brg_sku     String
   qty         Int
   unit        PurchaseUnit @default(PCS)
