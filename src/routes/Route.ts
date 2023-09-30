@@ -4,6 +4,7 @@ import userController from "../controllers/userController";
 import cashierController from "../controllers/cashierController";
 import barangController from "../controllers/barangController";
 import TransactioController from "../controllers/transactionController";
+
 const route = Router();
 
 route.get("/feed", mailbox.mailBoxfeed);
@@ -35,5 +36,8 @@ route.delete("/barang/:sku", barangController.deleteBarang);
 route.post("/transaction", TransactioController.createTransaction);
 route.get("/transactions", TransactioController.getTransaction);
 route.delete("/transaction/:id", TransactioController.deleteTransaction);
+
+//auth user
+route.post("/signup");
 
 export default route;

@@ -1,8 +1,5 @@
 import { PrismaClient } from "@prisma/client";
 import { Request, Response } from "express";
-// import { entryPurchasing } from "./purchasingController";
-// import { v1 } from "uuid";
-// import { json } from "node:stream/consumers";
 
 const prisma = new PrismaClient();
 
